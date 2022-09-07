@@ -6,6 +6,10 @@ COPY init.sh /init.sh
 # update apt and install git and pipenv
 RUN /init.sh
 
+# # create working directory and move server files into it
+WORKDIR /
+ADD wae /wae
+
 # move bash into container
 COPY run.sh /wae/run.sh
 
