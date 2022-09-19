@@ -24,7 +24,7 @@ jobs:
 
       - name: Build Container image 
 
-        run: docker build. --file Dockerfile --tag $IMAGE_NAME 
+        run: docker build . --file Dockerfile --tag $IMAGE_NAME 
 
  
 
