@@ -1,0 +1,30 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "dev" ]
+
+jobs:
+
+  buildimage: 
+
+    name: Build and Publish Docker Image
+
+    runs-on: ubuntu-latest 
+
+ 
+
+    steps: 
+
+      - uses: actions/checkout@v2 
+
+      - name: Build and publish Docker Images to GitHub Container registry
+        uses: VaultVulp/gp-docker-action@1.2.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
+          image-name: wae_launcher # Provide Docker image name
+          image-tag: dev # Provide Docker image tag
+
+
