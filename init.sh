@@ -1,9 +1,9 @@
 #!/bin/bash
 
 echo updating apt...
-echo "" | sudo apt update &> /dev/null
+echo "" | apt update &> /dev/null
 echo installing pipenv...
 pip install pipenv &> /dev/null
 echo installing git...  
-echo "Y" | sudo apt install git
+echo "Y" | apt install git
 
