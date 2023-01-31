@@ -1,4 +1,4 @@
 from waitress import serve
-from main import app
+from wae import app
 
 serve(app, listen="*:80")
