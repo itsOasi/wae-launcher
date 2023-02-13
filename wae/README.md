@@ -8,10 +8,6 @@ While web apps are a very powerful tool as a means of encouraging business betwe
 
 ### Current Features:
 
-__Components__
-
-A common paradigm for developing anything, these are the modular, fully customizable building blocks of your web app.
-
 __Automated Deployments *__
 
 When launched, a fresh copy of WAE will clone your project from git and automatically deploy it.
@@ -25,6 +21,4 @@ __Cloud Based Editor__
 ### __Footnotes__
 
 *missing documentation
-
-**under development
 
