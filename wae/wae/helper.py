@@ -1,30 +1,103 @@
-import os
-session_log = []
+from math import sqrt
+import random, os, json
 
-def log(msg, lvl=0):
-    LOG = ["LOG: ", "WRN: ", "ERR: "]
-    log_msg = LOG[lvl]+msg
-    session_log.append(log_msg)
-    return log_msg
 
-def write_file(name, data, perms="w+"):
-    # create file for writing to with perms
-    f = open(name, perms)
-    # write data to file
-    f.write(data)
-    # log to console for debugging
-    log(f"wrote to {name}: {f.read()}")
-    f.close()
+LOGS = []
+LOG_LVLS = ["SYSTEM", "LOG", "WARN", "ERROR"]
+SUPPRESSED = [0]
+def log(msg):
+    log = f"LOG: {msg}"
+    LOGS.append(log)
+    print_log(log, 1)
 
-def read_file(name, perms="r"):
-    # create file for reading from
-    f = open(name, perms)
-    # write data to file
+def log_lvl(msg, lvl=0):
+    log = f"{LOG_LVLS[lvl]}: {msg}"
+    LOGS.append(log)
+    print_log(log, lvl)
+
+def print_log(log, lvl):
+    if not lvl in SUPPRESSED:
+        print(log)
+
+def print_logs(limit = 5):
+    display = LOGS[-limit:]
+    string = ""
+    for item in display:
+        string += f"{item}\n"
+    return string
+
+def is_same_type(a, b):
+    """
+        checks to see if a and b are the same type
+    """
+    return type(a).__name__ == type(b).__name__
+
+def read_file(path, args="r"):
+    """
+        gathers data from file at path
+    """
+    data = []
+    f = open(path, args)
     data = f.read()
-    # log to console for debugging
-    log(f"read from {name}: {data}")
     f.close()
+    log("file data loaded")
     return data
+
+def write_file(path, data, args="w"):
+    """
+        writes data to file at path
+    """
+    f = open(path, args)
+    f.write(data)
+    f.close()
+    log("data written")
+
+def json_to_dict(path):
+    return json.loads(read_file(path))
+
+def dict_to_json(path, data):
+    write_file(path, json.dumps(data))
+
+def dyn_import(module_name):
+    # https://www.geeksforgeeks.org/how-to-dynamically-load-modules-or-classes-in-python/
+    module = __import__(module_name)
+    return module
+
+def del_file(path):
+    pass
+    
+def generate_id(prefix):
+    """
+        generates an id with a given prefix
+    """
+    if not is_same_type(prefix, "hi"):
+        prefix = "ID" # uses default prefix if invalid data is presented
+    return prefix+str(random.randrange(111111, 999999))
+
+def get_dist(pos1, pos2):
+        '''
+            gets distance between position 1 and position 2 using the a2 + b2 = c2
+            but with a list of terms
+        '''
+        c2 = 0 # hypotenuse sqrd
+        print(pos1, pos2)
+        for axis in range(len(pos1)):
+            c2 += (pos2[axis] - pos1[axis])**2 # calculates the terms
+        hyp = sqrt(c2) # gets hypotenuse length
+        print("distance between vectors", hyp)
+        return hyp
+
+def is_in_slots(query, obj):
+    log_lvl(f"{obj.get_name()}: {obj.__slots__}", 0)
+    return query in obj.__slots__
+        
+def call_if_in_slots(query, obj, kwargs):
+    log_lvl(f"{obj.get_name()}: {obj.__slots__}", 0)
+    if is_in_slots(query, obj):
+        try:
+            eval(f"obj.{query}({kwargs})")
+        except Exception as e:
+            return False
 
 def cmd(str):
     os.system(str)

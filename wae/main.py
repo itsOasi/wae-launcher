@@ -1,5 +1,6 @@
-from flask import Flask
-from wae import os, model
+from urllib import request
+from flask import Flask, request
+from wae import model
 app = Flask(__name__)
 
 wae_model = None
@@ -8,14 +9,12 @@ wae_model = None
 def no_slug():
     return wae_model.load_index()
 
-@app.route("/<slug>") # allows slug for the engine to process on the client's device
+@app.route("/<slug>", methods=["GET", "POST", "OPTIONS"]) # allows slug for the engine to process on the client's device
 def main(slug):
+    if request.method == "post":
+        req = request.form
+        return wae_model._responses.check(req["term"], req["data"])
     return wae_model.load_index()
-
-@app.route("/pull", methods=["GET", "POST", "OPTIONS"])
-def pull():
-    wae_model.pull()
-    return {}
 
 if __name__ == "__main__":
     wae_model = model.Model("wae_config.json") # load static files for the project
