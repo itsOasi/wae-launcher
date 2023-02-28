@@ -4,13 +4,14 @@ from flask_cors import CORS
 from wae import model, helper, google
 app = Flask(__name__)
 
-ASSET_DIR = "" # where repo data will be stored
-ADMIN_PASSWD = "" # get from environment variable
-wae_model = model.Model("wae_config.json") #initiate model with a config file
+BLOG_DIR = "./assets/innova"
+ADMIN_PASSWD = "1234"
+wae_model = model.Model("wae_config.json") # load static files for the project
 if wae_model.get_config("cors"):
 	CORS(app)
-wae_model.clone("") # a repo from the config file
-authorized_clients = [] 
+wae_model.clone("assets")
+
+authorized_clients = []
 
 @app.route("/") # loads homepage
 def main():
