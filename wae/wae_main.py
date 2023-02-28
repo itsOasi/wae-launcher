@@ -4,14 +4,13 @@ from flask_cors import CORS
 from wae import model, helper, google
 app = Flask(__name__)
 
-BLOG_DIR = "./assets/innova"
-ADMIN_PASSWD = "1234"
-wae_model = model.Model("wae_config.json") # load static files for the project
+ASSET_DIR = "./assets/innova/catalog.json" # where repo data will be stored
+ADMIN_PASSWD = "1234" # get from environment variable
+wae_model = model.Model("wae_config.json") #initiate model with a config file
 if wae_model.get_config("cors"):
 	CORS(app)
-wae_model.clone("assets")
-
-authorized_clients = []
+wae_model.clone("assets") # a repo from the config file
+authorized_clients = [] 
 
 @app.route("/") # loads homepage
 def main():
@@ -21,7 +20,7 @@ def main():
 	else:
 	    return helper.read_file("auth.html") # otherwise, user must authorize
 
-@app.route("/auth")
+@app.route("/auth", methods=["post"])
 def auth():
 	helper.log(request.form["pass"])
 	if request.form["pass"] == ADMIN_PASSWD:
@@ -37,9 +36,14 @@ def change_pass():
 		return helper.dict_to_json({"password_changed":True})
 	return helper.dict_to_json({"pasword_changed":False})
 
+@app.route("/get_catalog")
+def get_catalog():
+	helper.log(f"{request.headers}")
+	return helper.json_to_dict(ASSET_DIR)
+
 @app.route("/resync")
 def resync():
-	wae_model.clone("")
+	wae_model.clone("assets")
 	return helper.dict_to_json({"resynced_repo":False})
 
 if __name__ == "__main__":

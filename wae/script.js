@@ -14,13 +14,13 @@ let http = {
 
 }
 
-document.querySelector("#get_articles").onclick = async function(){
-	let res = await http.get("/get_all");
+document.querySelector("#resync").onclick = async function(){
+	let res = await http.get("/resync");
 	let res_text = await res.text()
 	document.body.append(Object.keys(JSON.parse(res_text)));
 }
-document.querySelector("#get_list").onclick = async function(){
-	let res = await http.get("/get_latest");
+document.querySelector("#get_catalog").onclick = async function(){
+	let res = await http.get("/get_catalog");
 	let res_text = await res.text()
 	document.body.append(Object.keys(JSON.parse(res_text)));
 }
