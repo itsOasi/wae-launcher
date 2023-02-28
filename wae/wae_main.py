@@ -28,10 +28,10 @@ def auth():
 @app.route("/change_pass", methods=["GET", "POST", "OPTIONS"]) # allows slug for the engine to process on the client's device
 def change_pass():
 	helper.log(request.form["pass"])
-	if request.form["pass"] == ADMIN_PASSWD:
-		authorized_clients.append(request.headers["host"])
-		return helper.dict_to_json({"login":True})
-	return helper.dict_to_json({"login":False})
+	if request.form["old_pass"] == ADMIN_PASSWD and request.headers["host"] in authorized_clients:
+		ADMIN_PASSWD = request.form["new_pass"]
+		return helper.dict_to_json({"password_changed":True})
+	return helper.dict_to_json({"pasword_changed":False})
 	
 
 @app.route("/get_latest") # allows slug for the engine to process on the client's device
