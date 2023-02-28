@@ -52,10 +52,16 @@ def write_file(path, data, args="w"):
     f.close()
     log("data written")
 
+def read_dir(path):
+    return os.listdir(path)
+
 def json_to_dict(path):
     return json.loads(read_file(path))
 
-def dict_to_json(path, data):
+def dict_to_json(data):
+    return json.dumps(data)
+    
+def dict_to_json_path(path, data):
     write_file(path, json.dumps(data))
 
 def dyn_import(module_name):

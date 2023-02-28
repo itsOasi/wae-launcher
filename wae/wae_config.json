@@ -2,11 +2,14 @@
     "version": "0.1.0",
     "debug":true,
     "name":"My Wae",
+	"cors":true,
     "repos":{
-        "port":{"port":"https://github.com/itsOasi/portfolio"}
-    },
+        "assets":{
+			"repo":"https://github.com/itsOasi/asset_db",
+			"path":"assets"
+    	}
+	},
     "modules":{
         "app":"app"
-    },
-    "dep_mode": "rel"
+    }
 }

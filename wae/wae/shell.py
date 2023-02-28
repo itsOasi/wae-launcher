@@ -1,6 +1,6 @@
 from distutils.command.config import config
 import shutil
-from wae import helper, os, json, output
+from wae import helper, os, json
 
 # def login_with_github()
 
@@ -15,8 +15,8 @@ def clone_here(repo, location):
     print(helper.log(f"cloning from {repo}"))
     try:
         clear_project()
-        helper.cmd(f"git clone {repo} /import/{location}") # clone repo into location
-        return True
+        helper.cmd(f"git clone {repo} ./{location}") # clone repo into location
+        return f"./{location}"
     except:
         print(helper.log("could not clone repo", 2))
         return False
@@ -42,9 +42,12 @@ def set_config(config_loc, key, value):
 
 
 def get_config(config_loc, key):
-    data = helper.read_file(config_loc) # open config file
-    config = json.loads(data) # parse json
-    return config[key] # return key value
+	try:
+		data = helper.read_file(config_loc) # open config file
+		config = json.loads(data) # parse json
+		return config[key] # return key value
+	except:
+		return None
 
 class RepoPath:
 	def __init__(self, repo, path) -> None:
@@ -71,6 +74,9 @@ class RepoList:
 	def clear_repo(self, name):
 		self._repos[name].clear()
 
+	def clone(self, name):
+		self._repos[name].clone()
+
 	def clone_all(self):
 		for name, repo in self._repos:
 			repo.clone()
@@ -78,8 +84,8 @@ class RepoList:
 	def read_config(self, path):
 		repos = get_config(path, "repos")
 		# create repo paths from config data
-		for name, rp in repos:
-			self._repos[name]=RepoPath(rp["repo"], rp["path"])
+		for name, rp in repos.items():
+			self.add_repo_path(name, rp["repo"], rp["path"])
 
 class ModuleList:
     def __init__(self, config_path) -> None:

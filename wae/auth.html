@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Blog Server</title>
+</head>
+<body>
+	<input type="text" id="pass" placeholder="ENTER">
+	<button id="auth">AUTHORIZE</button>
+	<script>
+		let http = {
+			get: async(url) =>
+			{
+				let res = await fetch(url)
+				return await res
+			},
+			post: async(url, data) => {
+				let res = await fetch(url, {
+					method: "post",
+					body: data
+				})
+				return await res
+			}
+
+		}
+		document.querySelector("#auth").onclick = async function(){
+			let form = new FormData()
+			form.append("pass", document.getElementById("pass").value)
+			let res = await http.post("/auth", form);
+			let res_text = await res.text()
+			let res_json = JSON.parse(res_text)
+			if (res_json.login){
+				location.reload()
+			}
+	
+		}
+	</script>
+</body>
+</html>
