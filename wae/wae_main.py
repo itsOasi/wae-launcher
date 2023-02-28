@@ -6,7 +6,11 @@ app = Flask(__name__)
 
 BLOG_DIR = "./assets/innova"
 ADMIN_PASSWD = "1234"
-wae_model = None
+wae_model = model.Model("wae_config.json") # load static files for the project
+if wae_model.get_config("cors"):
+	CORS(app)
+wae_model.clone("assets")
+
 authorized_clients = []
 
 @app.route("/") # loads homepage
@@ -50,8 +54,4 @@ def get_all():
 	return helper.dict_to_json(articles)
 
 if __name__ == "__main__":
-	wae_model = model.Model("wae_config.json") # load static files for the project
-	if wae_model.get_config("cors"):
-		CORS(app)
-	wae_model.clone("assets")
 	app.run(host="0.0.0.0", port=8000, debug=True)
