@@ -1,16 +1,24 @@
-# Web App Engine
+# Web API Engine
 
 ## *Anything you can Imagine, Just as you Imagined*
 
 ---
 
-While web apps are a very powerful tool as a means of encouraging business between the owner and visitors, I want to focus on creativity and what all can possibly be done with web apps.
+Boilerplate code for developing a flask server
 
 ### Current Features:
 
-__Automated Deployments *__
+__GIT management *__
 
-When launched, a fresh copy of WAE will clone your project from git and automatically deploy it.
+When launched, WAE will clone your project from git and automatically deploy it.
+
+__Python helper file__
+
+Helps with file management, os commands, and more
+
+__Customizable Portal__
+
+Can be used as is for website when attached to a domain
 
 ### Planned Features/Projects:
 
