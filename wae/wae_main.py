@@ -4,7 +4,7 @@ from flask_cors import CORS
 from wae import model, helper, google
 app = Flask(__name__)
 
-ASSET_DIR = "./assets/portfolio/catalog.json" # where repo data will be stored
+ASSET_DIR = "" # where repo data will be stored
 ADMIN_PASSWD = "1234" # get from environment variable
 wae_model = model.Model("wae_config.json") #initiate model with a config file
 if wae_model.get_config("cors"):
@@ -35,11 +35,6 @@ def change_pass():
 		ADMIN_PASSWD = request.form["new_pass"]
 		return helper.dict_to_json({"password_changed":True})
 	return helper.dict_to_json({"pasword_changed":False})
-
-@app.route("/get_catalog")
-def get_catalog():
-	helper.log(f"{request.headers}")
-	return helper.json_to_dict(ASSET_DIR)
 
 @app.route("/resync")
 def resync():
