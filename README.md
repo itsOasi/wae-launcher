@@ -4,9 +4,10 @@ Get your WAE server up and running with minimum effort. WAE Launcher is a Docker
 
 ## How it works
 
-1. Tweak the ```wae_config``` file to your needs, namely pointing it to your directory
-2. Build Docker image
-3. Launch it with Linode or AWS!
+1. clone project
+2. Tweak the ```wae_config``` file to your needs, namely pointing it to your directory
+3. add flask endpoints to perform functions
+5. Deploy it with GCP, AWS, or any container service!
 
 Once deployed, WAE will launch itself and clone your project
 
