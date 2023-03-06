@@ -17,6 +17,9 @@ class Model:
 	def clone(self, name):
 		self._repos.clone(name)		
 
+	def pull(self, name):
+		self._repos.pull(name)		
+
 	def set_index(self, path):
 		self.index_page = path
 

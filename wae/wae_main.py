@@ -4,7 +4,7 @@ from flask_cors import CORS
 from wae import model, helper, google
 app = Flask(__name__)
 
-ASSET_DIR = "./assets/innova/catalog.json" # where repo data will be stored
+ASSET_DIR = "./assets/portfolio/catalog.json" # where repo data will be stored
 ADMIN_PASSWD = "1234" # get from environment variable
 wae_model = model.Model("wae_config.json") #initiate model with a config file
 if wae_model.get_config("cors"):
@@ -43,8 +43,8 @@ def get_catalog():
 
 @app.route("/resync")
 def resync():
-	wae_model.clone("assets")
+	wae_model.pull("assets")
 	return helper.dict_to_json({"resynced_repo":False})
 
 if __name__ == "__main__":
-	app.run(host="0.0.0.0", port=8000, debug=True)
+	app.run(host="0.0.0.0", port=8001, debug=True)

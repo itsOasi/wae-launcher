@@ -4,27 +4,26 @@ from wae import helper, os, json
 
 # def login_with_github()
 
-def clear_project():
-    print(helper.log("clearing static directory"))
+def clear_dir(path):
+    print(helper.log(f"clearing directory at {path}"))
     try:
-        helper.cmd("echo y | rmdir /s static") # remove static folder contents
+        helper.cmd(f"echo y | rmdir /s {path}") # remove static folder contents
     except:
-        print(helper.log("error clearing directory", 1))
+        print(helper.log_lvl("error clearing directory", 1))
 
 def clone_here(repo, location):
     print(helper.log(f"cloning from {repo}"))
     try:
-        clear_project()
+        clear_dir(location)
         helper.cmd(f"git clone {repo} ./{location}") # clone repo into location
         return f"./{location}"
     except:
-        print(helper.log("could not clone repo", 2))
+        print(helper.log_lvl("could not clone repo", 2))
         return False
 	
 def pull_repo(repo):
     print(helper.log(f"pulling from {repo}"))
     try:
-        clear_project()
         helper.cmd(f"git pull {repo}")
         return True
     except:
@@ -60,6 +59,9 @@ class RepoPath:
 	def clone(self):
 		clone_here(self._repo, self._path)
 
+	def pull(self):
+		pull_repo(self._repo)
+
 	def clear(self):
 		helper.del_file(self._path)
         
@@ -76,6 +78,9 @@ class RepoList:
 
 	def clone(self, name):
 		self._repos[name].clone()
+
+	def pull(self, name):
+		self._repos[name].pull()
 
 	def clone_all(self):
 		for name, repo in self._repos:

@@ -5,7 +5,7 @@
 	"cors":true,
     "repos":{
         "assets":{
-			"repo":"https://github.com/itsOasi/asset_db",
+			"repo":"https://github.com/itsOasi/asset_db.git",
 			"path":"assets"
     	}
 	},
