@@ -4,38 +4,32 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Blog Server</title>
+	<script defer src="static/script.js" type="module"></script>
+	<link rel="stylesheet" href="static/style.css">
+	<title>Innova Fi</title>
 </head>
 <body>
-	<button id="resync">Resync Server</button>
-	<button id="get_catalog">View Catalog</button>
-	<script>
-		let http = {
-			get: async(url) =>
-			{
-				let res = await fetch(url)
-				return await res
-			},
-			post: async(url, data) => {
-				let res = await fetch(url, {
-					method: "post",
-					body: data
-				})
-				return await res
-			}
-
-		}
-
-		document.querySelector("#resync").onclick = async function(){
-			let res = await http.get("/resync");
-			let res_text = await res.text()
-			document.body.append(Object.keys(JSON.parse(res_text)));
-		}
-		document.querySelector("#get_catalog").onclick = async function(){
-			let res = await http.get("/get_catalog");
-			let res_text = await res.text()
-			document.body.append(Object.keys(JSON.parse(res_text)));
-		}
-	</script>
+    <div id="header" class="space_between">
+        <b id="title" class="title theme_text">Innova Fi</b>
+        <button id="support" class="menu_button theme_text">Support Us</button>
+    </div>
+    <nav id="navbar" class="hbox">
+            <div class="vcenter">Apps:</div>
+            <button id="budgets" class="menu_button">Budgets</button>
+            <button id="income" class="menu_button">Income</button>
+			<div class="vcenter disabled">coming soon:</div>
+            <p id="budgets" class="menu_button disabled">Reports</p>
+    </nav>
+    <div id="content" class="hbox center">
+        <div id="app_root" class="panel"></div>
+    </div>
+    
+    <div id="notification" class="panel center">
+        <div>  
+            <h3 id="note_title" class="title theme_text"></h3>
+            <p id="note_message"></p>
+        </div>
+        <button id="note_close" class="menu_button theme_text">x</button>
+    </div>
 </body>
 </html>
